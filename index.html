@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cover Page with Beating Text</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -21,6 +22,9 @@
                             '50%': { transform: 'scale(1.1)' },
                         },
                     },
+                    fontFamily: {
+                        comic: ["Comic Neue", "cursive"], // Add the font here
+                    },
                 },
             },
         };
@@ -28,7 +32,7 @@
     <style>
         @layer utilities {
             .text-glow {
-                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #e90ed7, 0 0 80px #e90ed7, 0 0 90px #e90ed7, 0 0 100px #e90ed7, 0 0 150px #e90ed7;
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #b025bd, 0 0 80px #b025bd, 0 0 90px #b025bd, 0 0 100px #b025bd, 0 0 150px #b025bd;
             }
         }
 
@@ -64,16 +68,19 @@
 <body>
     <div class="w-screen h-screen flex flex-col justify-center items-center bg-[url(images/back1.jfif)] bg-cover bg-center">
         <!-- Beating and glowing text -->
-        <h1 class="text-6xl font-bold text-purple-800 text-glow  mb-16">
+        <h1 class="text-6xl font-bold text-purple-800 text-glow  mb-16 font-comic">
             Hi Isabela
         </h1>
+        <div class="text-2xl font-medium text-purple-900 mb-5 text-center bg-purple-500 rounded-2xl p-3">
+            <h3>This is only for you</h3>
+            <h3>Hope you enjoy</h3>
+            <h3>Tap my heart</h3>
+        </div>        
 
         <!-- Heart button with "Tap Here" text -->
         <div class="relative">
             <div class="heart text-glow animate-heartbeat" id="heartButton"></div>
-            <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-lg">
-                Tap Here
-            </p>
+            
         </div>
     </div>
 
