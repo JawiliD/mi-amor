@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typewriter Effect with Tailwind CSS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="src/output.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        blink: 'blink 1s steps(2, start) infinite',
+                    },
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { 'border-color': 'transparent' },
+                            '50%': { 'border-color': 'rgb(249 115 22)' }, // Tailwind's orange-500
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="flex justify-center items-center h-screen bg-gray-100">
+    <div class="background-container">
+        <div class="paper-container">
+            <div id="typewriter" class="text-lg sm:text-xl md:text-2xl font-mono whitespace-pre-wrap overflow-hidden border-r-2 border-orange-500 animate-blink">
+                <!-- Text will be typed here -->
+            </div>
+        </div>
+    </div>
+    
+   
+
+    <script>
+        const text = "Dear Recipient,\n\nI hope this letter finds you wrapped in the same warmth and light that you bring into my life every single day. I’ve been thinking about you—about us—and I felt the need to put my feelings into words, though I know they’ll never fully capture the depth of what’s in my heart. From the moment you came into my life, everything changed. You’ve become my safe haven, my greatest joy, and my most beautiful adventure. Your smile is the first thing I think of in the morning and the last thing I dream of at night. It’s not just your beauty that captivates me (though you are breathtaking), but the way your soul shines through in everything you do. Your kindness, your laughter, your strength—they’ve all woven themselves into the fabric of who I am. I love the way you see the world. You notice the little things—the way the sunlight dances on the leaves, the sound of rain against the window, the quiet moments that others might overlook. You’ve taught me to slow down, to appreciate the present, and to find beauty in the ordinary. With you, even the simplest moments feel extraordinary. I want you to know how deeply I cherish you. You’ve shown me a love that is patient, kind, and unwavering. It’s a love that feels like home, like I’ve finally found the missing piece of myself. I am endlessly grateful for your presence in my life, for the way you hold my heart so gently and so completely. I promise to always honor the love we share, to stand by your side through every high and every low, and to never take for granted the incredible gift of being loved by you. You are my everything, and I am so proud to call you mine. Thank you for being you. Thank you for loving me. I love you more than words could ever express, and I will spend the rest of my life showing you just how much you mean to me.\n\nForever and always,\nYour Name";
+        const typewriterElement = document.getElementById('typewriter');
+        let index = 0;
+
+        function typeWriter() {
+            if (index < text.length) {
+                // Add the next character to the element
+                typewriterElement.innerHTML += text.charAt(index);
+                index++;
+
+                // Wait a random amount of time (50ms to 150ms) before typing the next character
+                setTimeout(typeWriter, Math.floor(Math.random() * 100) + 50);
+            }
+        }
+
+        // Start the typewriter effect
+        typeWriter();
+    </script>
+</body>
+</html>
