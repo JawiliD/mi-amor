@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick-up Lines</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background: url('images/back3.jfif') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100vh;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .pickup-container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+
+        .pickup-line {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-height: 120px; /* Increased height to prevent text cutoff */
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background: red;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: none;
+        }
+
+        .button:hover {
+            background: darkred;
+        }
+
+        .special-button {
+            background: green !important;
+        }
+
+        .special-button:hover {
+            background: darkgreen !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pickup-container">
+        <h1 class="text-4xl mb-4" style="font-family: 'Lavishly Yours', cursive;">Pick-up Lines ❤️</h1>
+        <p id="pickupText" class="pickup-line"></p>
+        <button id="nextButton" class="button" onclick="showNextPickup()">Next 💘</button>
+        <a id="specialButton" class="button special-button" href="letter.html" style="display: none;">Click Me! 💖</a>
+    </div>
+
+    <!-- Background Music (if required) -->
+    <iframe src="audio.html" style="display: none;"></iframe>
+
+    <script>
+        const pickupLines = [
+            "Are you a song? Because you’re stuck in my head all day. 🎶",
+            "Are you a flower? Because you make my heart bloom. 🌸",            
+            "Are you Wi-Fi? Because I’m really feeling a connection. 📶",
+            "Do you have a name, or can I call you mine? 😘",
+            "Can I follow you home? Because my parents always told me to follow my dreams. 🌙✨",
+            "Do you believe in love at first type, or should I DM you again? Because every time I see your name pop up on my screen, my heart does this weird little happy dance.💬",
+            "I know those were cheesy, but I hope it made you laugh or smile hehe, this is not the end 😊"
+        ];
+
+        let currentIndex = 0;
+
+        function typeMessage(text, element, speed, callback) {
+            let i = 0;
+            element.innerHTML = "";  // Clear previous text
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    if (callback) callback(); // Call the next function after typing
+                }
+            }
+            type();
+        }
+
+        function showNextPickup() {
+            const textElement = document.getElementById("pickupText");
+            const nextButton = document.getElementById("nextButton");
+            const specialButton = document.getElementById("specialButton");
+
+            nextButton.style.display = "none";
+            specialButton.style.display = "none";
+
+            typeMessage(pickupLines[currentIndex], textElement, 50, () => {
+                if (currentIndex === pickupLines.length - 1) {
+                    specialButton.style.display = "block"; // Show final button
+                } else {
+                    nextButton.style.display = "block"; // Show next button
+                }
+                
+                // Only increment if there's another line to show
+                if (currentIndex < pickupLines.length - 1) {
+                    currentIndex++;
+                }
+            });
+        }
+
+        window.onload = showNextPickup;
+    </script>
+
+</body>
+</html>
