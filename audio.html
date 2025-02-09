@@ -8,7 +8,7 @@
 <body>
 
   <!-- Hidden Audio Player -->
-  <audio id="audioPlayer" autoplay></audio>
+  <audio id="audioPlayer"></audio>
 
   <script>
     // Define playlist
@@ -32,8 +32,15 @@
 
     // Play next song when the current one ends
     audio.addEventListener("ended", () => {
-      playTrack(currentTrack + 1);
+      playTrack((currentTrack + 1) % playlist.length); // Loops back to start
     });
+
+    // Ensure autoplay works after user interaction
+    document.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play().catch(error => console.error("Playback error:", error));
+      }
+    }, { once: true });
 
     // Save playback time before leaving the page
     window.addEventListener("beforeunload", () => {
