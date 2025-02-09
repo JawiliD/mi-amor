@@ -3,11 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>greetings</title>
+    <title>Valentine's Greetings</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap" rel="stylesheet">
+
+    <style>
+        /* Background */
+        body {
+            overflow: hidden; /* Hide scrollbars */
+            background: url('images/back2.jfif') no-repeat center center/cover;
+        }
+
+        /* Falling Hearts */
+        .heart {
+            position: absolute;
+            top: 0; /* Start from the top */
+            color: red;
+            font-size: 20px;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        /* Heart Falling Animation */
+        @keyframes fall {
+            0% { transform: translateY(0) translateX(0); opacity: 1; }
+            100% { transform: translateY(100vh) translateX(var(--x-move, 0px)); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-    <iframe src="audio.html" class="fixed bottom-0 left-0 w-full h-20 border-none"></iframe>
-    
+
+    <div class="w-screen h-screen flex flex-col justify-center items-center">
+
+        <div class="bg-gray-800 rounded-2xl border-fuchsia-500 border-4 p-10 mb-10">
+            <h1 class="text-6xl text-red-500" style="font-family: 'Lavishly Yours', cursive;">
+                Happy Valentine's Day! ❤️
+            </h1>
+        </div>
+        <div class="typewriting2"></div>
+       
+    </div>
+
+    <iframe src="audio.html" style="display: none;"></iframe>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️'; // Heart Emoji
+            heart.classList.add('heart');
+            document.body.appendChild(heart);
+
+            // Randomize start position (top area)
+            heart.style.left = Math.random() * 100 + 'vw'; // Random left position
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px'; // Random size
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's'; // Random fall speed
+            heart.style.setProperty('--x-move', Math.random() * 50 - 25 + 'px'); // Slight left/right movement
+
+            // Remove heart after it falls
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+
+        // Continuously create hearts
+        setInterval(createHeart, 300);
+    </script>
+
 </body>
 </html>

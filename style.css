@@ -1,0 +1,33 @@
+@layer utilities {
+    .text-glow {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #b025bd, 0 0 80px #b025bd, 0 0 90px #b025bd, 0 0 100px #b025bd, 0 0 150px #b025bd;
+    }
+}
+
+/* Heart shape styling */
+.heart {
+    width: 100px;
+    height: 90px;
+    position: relative;
+    background: red;
+    clip-path: path("M50 89.6C46.9 89.6 43.8 88.4 41.2 86.1L7.5 56.7C-10.2 40.8 -2.5 11.2 23.6 7.5C31.7 6.2 39.8 8.9 45.7 14.8L50 19.1L54.3 14.8C60.2 8.9 68.3 6.2 76.4 7.5C102.5 11.2 110.2 40.8 92.5 56.7L58.8 86.1C56.2 88.4 53.1 89.6 50 89.6Z");
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Filling effect */
+.heart::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: width 2s ease;
+}
+
+/* When the button is clicked, the filling effect starts */
+.heart.active::before {
+    width: 100%;
+}
