@@ -1,61 +1,55 @@
+<!-- audio.html (Background Music Player) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Player</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Background Music</title>
 </head>
-<body class="bg-gray-900 text-white">
-  <!-- YouTube Player -->
-  <div id="player"></div>
+<body>
+
+  <audio id="audioPlayer" autoplay></audio>
 
   <script>
-    // YouTube API script
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    let player;
+    // Define a playlist
     const playlist = [
-      'igIfiqqVHtA', // Replace with your YouTube video IDs
-      'osRhJjvNSds',
-      'yBtO2CdZYss',
+      "audios/enchanted.mp3",
+      "audios/araw-araw.mp3",
+      
     ];
-    let currentTrack = 0;
 
-    // Initialize the YouTube player
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '0', // Hide the player
-        width: '0',
-        videoId: playlist[currentTrack],
-        playerVars: {
-          autoplay: 1, // Autoplay the video
-          controls: 0, // Hide controls
-          modestbranding: 1, // Hide YouTube logo
-          rel: 0, // Disable related videos
-        },
-        events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange,
-        },
-      });
+    let currentTrack = localStorage.getItem("currentTrack") || 0;
+    let audio = document.getElementById("audioPlayer");
+
+    function playTrack(index) {
+      currentTrack = index;
+      localStorage.setItem("currentTrack", currentTrack); // Save track position
+
+      audio.src = playlist[currentTrack];
+      audio.play().catch(error => console.error("Playback error:", error));
     }
 
-    // Start playing the video when the player is ready
-    function onPlayerReady(event) {
-      event.target.playVideo();
-    }
+    // Play next song when the current one ends
+    audio.addEventListener("ended", () => {
+      currentTrack = (parseInt(currentTrack) + 1) % playlist.length; // Loop playlist
+      playTrack(currentTrack);
+    });
 
-    // Play the next video when the current one ends
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.ENDED) {
-        currentTrack = (currentTrack + 1) % playlist.length; // Loop back to the first video
-        player.loadVideoById(playlist[currentTrack]);
+    // Save time position before leaving page
+    window.addEventListener("beforeunload", () => {
+      localStorage.setItem("musicTime", audio.currentTime);
+    });
+
+    // Restore last played song & position
+    audio.addEventListener("loadedmetadata", () => {
+      let savedTime = localStorage.getItem("musicTime");
+      if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
       }
-    }
+    });
+
+    playTrack(currentTrack); // Start playing
   </script>
+
 </body>
 </html>
