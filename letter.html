@@ -3,57 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typewriter Effect with Tailwind CSS</title>
+    <title>Typewriter Effect with Falling Hearts</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="src/output.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     animation: {
                         blink: 'blink 1s steps(2, start) infinite',
+                        fadeIn: 'fadeIn 1s ease-in-out forwards',
                     },
                     keyframes: {
                         blink: {
-                            '0%, 100%': { 'border-color': 'transparent' },
-                            '50%': { 'border-color': 'rgb(249 115 22)' }, // Tailwind's orange-500
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0 },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 },
                         },
                     },
                 },
             },
         };
     </script>
+    <style>
+        /* Falling Heart Animation */
+        @keyframes fall {
+            0% { transform: translateY(-10vh) scale(1); opacity: 1; }
+            100% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+        }
+
+        .heart {
+            position: absolute;
+            top: -10vh;
+            font-size: 24px;
+            color: red;
+            opacity: 1;
+            animation: fall 4s linear infinite;
+        }
+
+        /* Custom Paper Background */
+        .paper-container {
+            background: url('https://www.toptal.com/designers/subtlepatterns/uploads/paper.png');
+            background-size: cover;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        /* Hidden by default, will fade in after typing */
+        #actionButton {
+            opacity: 0;
+        }
+    </style>
 </head>
-<body class="flex justify-center items-center h-screen bg-gray-100">
-    <div class="background-container">
-        <div class="paper-container">
-            <div id="typewriter" class="text-lg sm:text-xl md:text-2xl font-mono whitespace-pre-wrap overflow-hidden border-r-2 border-orange-500 animate-blink">
-                <!-- Text will be typed here -->
+<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative min-h-screen flex justify-center">
+    
+    <!-- Hearts Container -->
+    <div id="hearts-container" class="absolute top-0 left-0 w-full h-full pointer-events-none"></div>
+
+    <div class="flex flex-col justify-center items-center w-full py-10">
+        <div class="paper-container w-[90%] sm:w-[70%] md:w-[50%] p-6 text-start relative z-10">
+            <div id="typewriter" class="text-lg sm:text-xl md:text-2xl font-mono overflow-hidden">
+                <span id="text"></span><span id="cursor" class="border-r-2 border-orange-500 animate-blink">|</span>
             </div>
         </div>
+        
+        <!-- Button (Hidden initially) -->
+        <button id="actionButton" class="mt-4 px-6 py-3 bg-red-500 text-white font-bold rounded-lg shadow-lg hover:bg-red-600 transition duration-300">
+            There's more...Click Me ❤️
+        </button>
     </div>
     
-    <!-- index.html, about.html, etc. -->
-<iframe src="audio.html" style="display: none;"></iframe>
+    <!-- Hidden Audio -->
+    <iframe src="audio.html" style="display: none;"></iframe>
 
     <script>
-        const text = "Dear Recipient,\n\nI hope this letter finds you wrapped in the same warmth and light that you bring into my life every single day. I’ve been thinking about you—about us—and I felt the need to put my feelings into words, though I know they’ll never fully capture the depth of what’s in my heart. From the moment you came into my life, everything changed. You’ve become my safe haven, my greatest joy, and my most beautiful adventure. Your smile is the first thing I think of in the morning and the last thing I dream of at night. It’s not just your beauty that captivates me (though you are breathtaking), but the way your soul shines through in everything you do. Your kindness, your laughter, your strength—they’ve all woven themselves into the fabric of who I am. I love the way you see the world. You notice the little things—the way the sunlight dances on the leaves, the sound of rain against the window, the quiet moments that others might overlook. You’ve taught me to slow down, to appreciate the present, and to find beauty in the ordinary. With you, even the simplest moments feel extraordinary. I want you to know how deeply I cherish you. You’ve shown me a love that is patient, kind, and unwavering. It’s a love that feels like home, like I’ve finally found the missing piece of myself. I am endlessly grateful for your presence in my life, for the way you hold my heart so gently and so completely. I promise to always honor the love we share, to stand by your side through every high and every low, and to never take for granted the incredible gift of being loved by you. You are my everything, and I am so proud to call you mine. Thank you for being you. Thank you for loving me. I love you more than words could ever express, and I will spend the rest of my life showing you just how much you mean to me.\n\nForever and always,\nYour Name";
-        const typewriterElement = document.getElementById('typewriter');
+        const text = `Dear Recipient,\n\nI hope this letter finds you wrapped in the same warmth and light that you bring into my life every single day.`;
+
+        const textElement = document.getElementById('text');
+        const cursorElement = document.getElementById('cursor');
+        const button = document.getElementById('actionButton');
         let index = 0;
 
         function typeWriter() {
             if (index < text.length) {
-                // Add the next character to the element
-                typewriterElement.innerHTML += text.charAt(index);
+                if (text[index] === "\n") {
+                    textElement.innerHTML += "<br>"; // Replace new lines with <br>
+                } else {
+                    textElement.innerHTML += text.charAt(index);
+                }
                 index++;
-
-                // Wait a random amount of time (50ms to 150ms) before typing the next character
                 setTimeout(typeWriter, Math.floor(Math.random() * 100) + 50);
+            } else {
+                cursorElement.style.display = "none"; // Hide cursor after typing finishes
+                button.style.opacity = "1"; // Ensure opacity is set in JavaScript
+                button.style.visibility = "visible"; // Make sure it's visible
+                button.style.animation = "fadeIn 1s ease-in-out forwards"; // Apply fade-in animation
             }
         }
 
+
         // Start the typewriter effect
         typeWriter();
+
+        // Function to create falling hearts
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.innerHTML = "❤️";
+            heart.classList.add("heart");
+
+            // Random position and size
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.animationDuration = `${Math.random() * 2 + 3}s`; // 3-5 seconds
+            heart.style.fontSize = `${Math.random() * 20 + 20}px`; // 20px - 40px
+
+            document.getElementById("hearts-container").appendChild(heart);
+
+            // Remove heart after animation ends
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Generate hearts every second
+        setInterval(createHeart, 800);
+
+        // Button Click Redirect
+        button.addEventListener("click", () => {
+            window.location.href = "final.html"; // Change this URL
+        });
     </script>
 </body>
 </html>
