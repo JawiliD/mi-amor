@@ -35,17 +35,44 @@
 
     <div class="w-screen h-screen flex flex-col justify-center items-center">
 
-        <div class="bg-gray-800 rounded-2xl border-fuchsia-500 border-4 p-10 mb-10">
+        <div class="bg-gray-800 rounded-2xl border-fuchsia-500 border-4 p-10 m-10">
             <h1 class="text-6xl text-red-500" style="font-family: 'Lavishly Yours', cursive;">
                 Happy Valentine's Day! ❤️
             </h1>
         </div>
-        <div class="typewriting2"></div>
-       
+        <div class="typewriting2 bg-gray-800 rounded-2xl border-fuchsia-500 border-4 p-10 m-10 text-2xl text-white text-center"></div>
+        <!-- Hidden button (shown after typing effect) -->
+        <a href="nextpage.html" id="proceedButton" class="mt-5 px-6 py-3 bg-red-500 text-white rounded-lg shadow-lg hover:bg-red-600 hidden">
+            Proceed ❤️
+        </a>
+        
     </div>
 
     <iframe src="audio.html" style="display: none;"></iframe>
+   
 
+
+    <script>
+    const message = "I know this isn't much, but I hope this would bring a smile on your pretty face.\n Wishing you a day filled with love and happiness! 💕";
+    const typingSpeed = 100; // Adjust speed (milliseconds per letter)
+    let index = 0;
+
+    function typeMessage() {
+        if (index < message.length) {
+        document.querySelector(".typewriting2").innerHTML += message.charAt(index);
+        index++;
+        setTimeout(typeMessage, typingSpeed);
+        } else {
+        // Show the button after typing is complete
+        document.getElementById("proceedButton").classList.remove("hidden");
+        }
+    }
+
+    // Start typing effect after the page loads
+    window.onload = typeMessage;
+    </script>
+
+    
     <script>
         function createHeart() {
             const heart = document.createElement('div');
