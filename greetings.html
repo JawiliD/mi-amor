@@ -12,12 +12,18 @@
         body {
             overflow: hidden; /* Hide scrollbars */
             background: url('images/back2.jfif') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            padding: 10px;
         }
 
         /* Falling Hearts */
         .heart {
             position: absolute;
-            top: 0; /* Start from the top */
+            top: 0;
             color: red;
             font-size: 20px;
             opacity: 0.8;
@@ -29,68 +35,87 @@
             0% { transform: translateY(0) translateX(0); opacity: 1; }
             100% { transform: translateY(100vh) translateX(var(--x-move, 0px)); opacity: 0; }
         }
+
+        /* Responsive Typography */
+        .valentine-title {
+            font-family: 'Lavishly Yours', cursive;
+            font-size: clamp(2rem, 6vw, 4rem); /* Scales for small to large screens */
+        }
+
+        .message-box {
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .typewriting2 {
+            min-height: 80px; /* Prevents jumping effect when typing */
+        }
+
+        /* Button Styles */
+        .proceed-btn {
+            padding: 12px 24px;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
 
-    <div class="w-screen h-screen flex flex-col justify-center items-center">
+    <div class="flex flex-col items-center w-full">
 
-        <div class="bg-gray-800 rounded-2xl border-fuchsia-500 border-4 p-10 m-10">
-            <h1 class="text-6xl text-red-500" style="font-family: 'Lavishly Yours', cursive;">
+        <div class="message-box bg-gray-800 rounded-2xl border-fuchsia-500 border-4 p-5 md:p-10 mb-6">
+            <p class="valentine-title text-4xl md:text-6xl text-red-500">
                 Happy Valentine's Day! ❤️
-            </h1>
+            </p>
         </div>
-        <div class="typewriting2 bg-gray-800 rounded-2xl border-fuchsia-500 border-4 p-10 m-10 text-2xl text-white text-center"></div>
+
+        <div class="typewriting2 bg-gray-800 rounded-2xl border-fuchsia-500 border-4 p-5 md:p-10 mb-6 text-lg text-white text-center">
+        </div>
+
         <!-- Hidden button (shown after typing effect) -->
-        <a href="nextpage.html" id="proceedButton" class="mt-5 px-6 py-3 bg-red-500 text-white rounded-lg shadow-lg hover:bg-red-600 hidden">
+        <a href="nextpage.html" id="proceedButton" class="proceed-btn bg-red-500 text-white rounded-lg shadow-lg hover:bg-red-600 hidden">
             Proceed ❤️
         </a>
         
     </div>
 
     <iframe src="audio.html" style="display: none;"></iframe>
-   
-
 
     <script>
-    const message = "I know this isn't much, but I hope this would bring a smile on your pretty face.\n Wishing you a day filled with love and happiness! 💕";
-    const typingSpeed = 100; // Adjust speed (milliseconds per letter)
-    let index = 0;
+        const message = "I know this isn't much, but I hope this brings a smile to your pretty face.\nWishing you a day filled with love and happiness! 💕";
+        const typingSpeed = 80; // Adjust speed (milliseconds per letter)
+        let index = 0;
 
-    function typeMessage() {
-        if (index < message.length) {
-        document.querySelector(".typewriting2").innerHTML += message.charAt(index);
-        index++;
-        setTimeout(typeMessage, typingSpeed);
-        } else {
-        // Show the button after typing is complete
-        document.getElementById("proceedButton").classList.remove("hidden");
+        function typeMessage() {
+            if (index < message.length) {
+                const target = document.querySelector(".typewriting2");
+                target.innerHTML += message.charAt(index);
+                if (message.charAt(index) === "\n") target.innerHTML += "<br>"; // Handle new lines
+                index++;
+                setTimeout(typeMessage, typingSpeed);
+            } else {
+                document.getElementById("proceedButton").classList.remove("hidden");
+            }
         }
-    }
 
-    // Start typing effect after the page loads
-    window.onload = typeMessage;
+        // Start typing effect after the page loads
+        window.onload = typeMessage;
     </script>
 
-    
     <script>
         function createHeart() {
             const heart = document.createElement('div');
-            heart.innerHTML = '❤️'; // Heart Emoji
+            heart.innerHTML = '❤️';
             heart.classList.add('heart');
             document.body.appendChild(heart);
 
-            // Randomize start position (top area)
-            heart.style.left = Math.random() * 100 + 'vw'; // Random left position
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px'; // Random size
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's'; // Random fall speed
-            heart.style.setProperty('--x-move', Math.random() * 50 - 25 + 'px'); // Slight left/right movement
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.setProperty('--x-move', Math.random() * 50 - 25 + 'px');
 
-            // Remove heart after it falls
             setTimeout(() => { heart.remove(); }, 5000);
         }
 
-        // Continuously create hearts
         setInterval(createHeart, 300);
     </script>
 
