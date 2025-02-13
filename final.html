@@ -16,6 +16,7 @@
             text-align: center;
             color: white;
             font-family: 'Courier New', Courier, monospace;
+            flex-direction: column;
         }
 
         /* Typewriter Effect */
@@ -37,11 +38,23 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
+
+        /* Hidden initially */
+        #google-link {
+            margin-top: 20px;
+            display: none;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
     <div class="text-amber-400 font-bold" id="typewriter">
         <span id="text"></span><span id="cursor">|</span>
+    </div>
+
+    <!-- Google Link -->
+    <div id="google-link">
+        <a href="https://drive.google.com/file/d/1DHK0upBqCivXMc3VDNL-rzZz1aTJjegD/view?usp=sharing" class="text-blue-400 underline" target="_blank">CLICK ME!!!</a>
     </div>
 
     <!-- Hidden Audio -->
@@ -51,6 +64,7 @@
         const text = "Before everything goes into an end I want to show you something I've put an effort on.\n I hope you appreciate it ☺️";
         const textElement = document.getElementById('text');
         const cursorElement = document.getElementById('cursor');
+        const googleLink = document.getElementById('google-link');
         let index = 0;
 
         function typeWriter() {
@@ -60,6 +74,7 @@
                 setTimeout(typeWriter, 100);
             } else {
                 cursorElement.style.display = "none"; // Hide cursor after typing finishes
+                googleLink.style.display = "block"; // Show Google link
             }
         }
 
